@@ -1,4 +1,5 @@
 {
+  
   "name": "apex-chat",
   "packageManager": "yarn@3.2.4",
   "devDependencies": {

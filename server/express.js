@@ -4,7 +4,11 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 import Template from "./../template";
-import userRoutes from "./routes/user.routes"
+import userRoutes from "./routes/user.routes";
+import authRoutes from "./routes/auth.routes";
+import bodyParser from 'body-parser'
+
+
 
 const app = express();
 
@@ -20,6 +24,21 @@ app.get("/", (req, res) => {
 });
 
 //Mounting of API's
-app.use("/",userRoutes)
+app.use("/", userRoutes);
+
+// Mounting auth.routes
+app.use("/", authRoutes);
+
+//Error handling
+//express-jwt throws an error whenever a token cannot be validated
+app.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    //this error returns a 401 status to the cleint
+    res.status(401).json({ error: err.name + ": " + err.message });
+  } else if (err) {
+    res.status(400).json({ error: err.name + ": " + err.message });
+    console.log(err);
+  }
+});
 
 export default app;

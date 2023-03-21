@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
+import crypto from "crypto";
 
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    trim: true,
+    trim: true,// remove whitespace character, null, and specified characters
     required: "Name is required",
   },
   email: {
