@@ -4,7 +4,7 @@ import crypto from "crypto";
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    trim: true,// remove whitespace character, null, and specified characters
+    trim: true, // remove whitespace character, null, and specified characters
     required: "Name is required",
   },
   email: {
@@ -12,22 +12,24 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     unique: "This email already exists",
     match: [/.+\@.+\...+/, "Please fill in a valid email"],
+    required: "Your email is required",
+  },
+  hashed_password: {
+    type: String,
+    required: "This password is required!",
   },
   created: {
     type: Date,
     default: Date.now,
   },
-  updated: Date,
-  hashed_password: {
-    type: String,
-    required: "The password is required!",
-  },
   salt: String,
+  updated: Date,
 });
 
 //Password is not stored in the user document but handled as a virtual string
 UserSchema.virtual("password")
   .set(function (password) {
+    console.log("Setting password", password);
     this._password = password;
     this.salt = this.makeSalt();
     this.hashed_password = this.encryptPassword(password);
@@ -47,10 +49,12 @@ UserSchema.methods = {
   encryptPassword: function (password) {
     if (!password) return "";
     try {
-      return crypto
-        .createHmac("shal", "this.salt")
+      const hashed_password = crypto
+        .createHmac("sha1", "this.salt") // use "sha1" instead of "shal"
         .update(password)
         .digest("hex");
+      console.log("Setting hashed_password:", hashed_password);
+      return hashed_password;
     } catch (err) {
       return "";
     }
@@ -63,11 +67,11 @@ UserSchema.methods = {
 
 //password validation
 UserSchema.path("hashed_password").validate(function (v) {
-  if (this._password && this._password.length < 10) {
-    this.invalidate("password", "Password must be at least 10 characters!");
-  }
-  if (this.isNew && !this._password) {
+  if (!this.hashed_password) {
     this.invalidate("password", "password is required");
+  }
+  if (this.hashed_password && this.hashed_password.length < 10) {
+    this.invalidate("password", "Password must be at least 10 characters!");
   }
 }, null);
 
