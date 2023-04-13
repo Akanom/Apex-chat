@@ -1,6 +1,6 @@
 import User from "../models/user.model";
 import extend from "lodash/extend";
-import errorHandler from './../helpers/dbErrorHandler'
+import errorHandler from "./../helpers/dbErrorHandler";
 
 //Creating a new user using POST req defined at /api/users
 const create = async (req, res, next) => {
@@ -39,7 +39,7 @@ const userByID = async (req, res, next, id) => {
   try {
     let user = await User.findById(id);
     if (!user) {
-      res.status("400").json({
+      return res.status("400").json({
         error: "The user is not found.",
       });
     }

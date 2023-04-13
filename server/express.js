@@ -6,12 +6,18 @@ import helmet from "helmet";
 import Template from "./../template";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
-import bodyParser from 'body-parser'
-
-
+import bodyParser from "body-parser";
+//  meant for development
+//import devBundle from "./devBundle";
+import path from "path";
 
 const app = express();
+//  meant for development
+// devBundle.compile(app)
 
+const CURRENT_WORKING_DIR = process.cwd();
+
+app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 app.use(bodyParser.json()); // handles complexity of parsing req objects so that it can simplify communication
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compress()); //compress all req bodies and tranverse through middleware
