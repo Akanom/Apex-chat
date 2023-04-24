@@ -16,7 +16,7 @@ const Home = () => {
       <CardMedia className={classes.media} image={puppyImg} title="Puppy" />
       <CardContent>
         <Typography variant="body1" component="p">
-          Welcome
+          Welcome home
         </Typography>
       </CardContent>
     </Card>
@@ -25,8 +25,13 @@ const Home = () => {
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth: 400,
+    maxWidth: "100%",
+    height:"100%",
     margin: "auto",
+    top:0,
+    left:0,
+    justifyContent:"center",
+    alignItems:"center",
     marginTop: theme.spacing(2),
     borderRadius: theme.spacing(1),
     boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",

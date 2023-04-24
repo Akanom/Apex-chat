@@ -11,11 +11,13 @@ import bodyParser from "body-parser";
 //import devBundle from "./devBundle";
 import path from "path";
 
+
+const CURRENT_WORKING_DIR = process.cwd();
 const app = express();
 //  meant for development
 // devBundle.compile(app)
 
-const CURRENT_WORKING_DIR = process.cwd();
+
 
 app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 app.use(bodyParser.json()); // handles complexity of parsing req objects so that it can simplify communication
