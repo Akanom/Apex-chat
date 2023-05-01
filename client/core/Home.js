@@ -5,13 +5,16 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import puppyImg from "./../assets/images/puppy.jpg";
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
+     
       <Typography variant="h6" className={classes.title}>
         Home page
+        <Link to="/users">Users</Link>
       </Typography>
       <CardMedia className={classes.media} image={puppyImg} title="Puppy" />
       <CardContent>
@@ -26,12 +29,12 @@ const Home = () => {
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: "100%",
-    height:"100%",
+    height: "100%",
     margin: "auto",
-    top:0,
-    left:0,
-    justifyContent:"center",
-    alignItems:"center",
+    top: 0,
+    left: 0,
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: theme.spacing(2),
     borderRadius: theme.spacing(1),
     boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",

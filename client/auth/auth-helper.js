@@ -23,7 +23,7 @@ const auth = {
     if (typeof window !== "undefined") localStorage.removeItem("jwt");
     bc();
     signout().then((data) => {
-      document.cookie = "t=; expires=Wed, 31 Dec 1969 00:00:00 UTC; path=/;";
+      document.cookie = "t=; expires=Wed, 31 Dec 1969 00:00:00 UTC; path=/;"; // dictate what happens after sign-out
     });
   },
 };

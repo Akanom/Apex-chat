@@ -1723,12 +1723,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ansi-html-community@npm:0.0.8":
-  version: 0.0.8
-  resolution: "ansi-html-community@npm:0.0.8"
+"ansi-html@npm:0.0.7":
+  version: 0.0.7
+  resolution: "ansi-html@npm:0.0.7"
   bin:
-    ansi-html: bin/ansi-html
-  checksum: 04c568e8348a636963f915e48eaa3e01218322e1169acafdd79c384f22e5558c003f79bbc480c1563865497482817c7eed025f0653ebc17642fededa5cb42089
+    ansi-html: ./bin/ansi-html
+  checksum: 9b839ce99650b4c2d83621d67d68622d27e7948b54f7a4386f2218a3997ee4e684e5a6e8d290880c3f3260e8d90c2613c59c7028f04992ad5c8d99d3a0fcc02c
+  languageName: node
+  linkType: hard
+
+"ansi-regex@npm:^2.0.0":
+  version: 2.1.1
+  resolution: "ansi-regex@npm:2.1.1"
+  checksum: 190abd03e4ff86794f338a31795d262c1dfe8c91f7e01d04f13f646f1dcb16c5800818f886047876f1272f065570ab86b24b99089f8b68a0e11ff19aed4ca8f1
   languageName: node
   linkType: hard
 
@@ -1814,7 +1821,7 @@ __metadata:
     webpack: 4.42.1
     webpack-cli: 3.3.11
     webpack-dev-middleware: 3.7.2
-    webpack-hot-middleware: ^2.25.3
+    webpack-hot-middleware: 2.25.0
     webpack-node-externals: 1.7.2
   languageName: unknown
   linkType: soft
@@ -4112,10 +4119,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-entities@npm:^2.1.0":
-  version: 2.3.3
-  resolution: "html-entities@npm:2.3.3"
-  checksum: 92521501da8aa5f66fee27f0f022d6e9ceae62667dae93aa6a2f636afa71ad530b7fb24a18d4d6c124c9885970cac5f8a52dbf1731741161002816ae43f98196
+"html-entities@npm:^1.2.0":
+  version: 1.4.0
+  resolution: "html-entities@npm:1.4.0"
+  checksum: 4b73ffb9eead200f99146e4fbe70acb0af2fea136901a131fc3a782e9ef876a7cbb07dec303ca1f8804232b812249dbf3643a270c9c524852065d9224a8dcdd0
   languageName: node
   linkType: hard
 
@@ -6282,6 +6289,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"querystring@npm:^0.2.0":
+  version: 0.2.1
+  resolution: "querystring@npm:0.2.1"
+  checksum: 7b83b45d641e75fd39cd6625ddfd44e7618e741c61e95281b57bbae8fde0afcc12cf851924559e5cc1ef9baa3b1e06e22b164ea1397d65dd94b801f678d9c8ce
+  languageName: node
+  linkType: hard
+
 "randombytes@npm:^2.0.0, randombytes@npm:^2.0.1, randombytes@npm:^2.0.5, randombytes@npm:^2.1.0":
   version: 2.1.0
   resolution: "randombytes@npm:2.1.0"
@@ -7258,6 +7272,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"strip-ansi@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "strip-ansi@npm:3.0.1"
+  dependencies:
+    ansi-regex: ^2.0.0
+  checksum: 9b974de611ce5075c70629c00fa98c46144043db92ae17748fb780f706f7a789e9989fd10597b7c2053ae8d1513fd707816a91f1879b2f71e6ac0b6a863db465
+  languageName: node
+  linkType: hard
+
 "strip-ansi@npm:^4.0.0":
   version: 4.0.0
   resolution: "strip-ansi@npm:4.0.0"
@@ -7276,7 +7299,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-ansi@npm:^6.0.0, strip-ansi@npm:^6.0.1":
+"strip-ansi@npm:^6.0.1":
   version: 6.0.1
   resolution: "strip-ansi@npm:6.0.1"
   dependencies:
@@ -7855,14 +7878,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-hot-middleware@npm:^2.25.3":
-  version: 2.25.3
-  resolution: "webpack-hot-middleware@npm:2.25.3"
+"webpack-hot-middleware@npm:2.25.0":
+  version: 2.25.0
+  resolution: "webpack-hot-middleware@npm:2.25.0"
   dependencies:
-    ansi-html-community: 0.0.8
-    html-entities: ^2.1.0
-    strip-ansi: ^6.0.0
-  checksum: 74fe5d15f3120742cf0f88a4af7e72f3678f2d05905676e37ab4e85c559f2c21d8aa72b0efe7c262993370bfc83fbe5a8d42561bcd10b370fac88640f87c463a
+    ansi-html: 0.0.7
+    html-entities: ^1.2.0
+    querystring: ^0.2.0
+    strip-ansi: ^3.0.0
+  checksum: 542fdb27a268bdcfb13b05c7a2f61aaec2d00f4c63d63e1fbe0cd241617a4f5d1e4055720903804fe20e0ce2a18aa4d61d7f7ebcda29aba54fe81b90c5a0b928
   languageName: node
   linkType: hard
 
