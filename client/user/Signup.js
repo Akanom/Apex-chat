@@ -1,11 +1,19 @@
 import {
+  Button,
+  Card,
   CardActions,
   CardContent,
+  Dialog,
+  DialogActions,
+  DialogContentText,
+  DialogTitle,
+  Icon,
   TextField,
   Typography,
 } from "@material-ui/core";
 import { create } from "lodash";
 import React, { useState } from "react";
+import {Link} from "react-router-dom"
 
 const Signup = () => {
   //define that stateful functions
@@ -16,10 +24,12 @@ const Signup = () => {
     open: false,
     error: "",
   });
+
   //define handlers function to be called when the input changes
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
+
   //create a clickSubmit button to submit forms. it will take inputs value from the state
   //and call the create fetch method to sign-up the user with the backend.
   const clickSubmit = () => {
@@ -43,6 +53,7 @@ const Signup = () => {
       }
     });
   };
+
   return (
     <div>
       <Card className={classes.card}>

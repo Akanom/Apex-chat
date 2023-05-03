@@ -12,9 +12,11 @@ const Home = () => {
   return (
     <Card className={classes.card}>
      
-      <Typography variant="h6" className={classes.title}>
+      <Typography variant="h6" className={classes.title} >
         Home page
         <Link to="/users">Users</Link>
+        <Link to="/signup">Signup</Link>
+        <Link to="/signin">Signin</Link>
       </Typography>
       <CardMedia className={classes.media} image={puppyImg} title="Puppy" />
       <CardContent>

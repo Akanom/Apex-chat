@@ -10,10 +10,10 @@ const signin = async (req, res) => {
     //the post req receives the password and email in the request body
     let user = await User.findOne({ email: req.body.email });
     if (!user) {
-      res.status("401").json({ error: "The user is not found!" });
+      return res.status("401").json({ error: "The user is not found!" });
     }
     if (!authenticate(req.body.password)) {
-      res
+      return res
         .status("401")
         .send({ error: "The email and password does not match!" });
     }

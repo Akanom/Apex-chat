@@ -1,7 +1,6 @@
 const path = require("path");
 const CURRENT_WORKING_DIR = process.cwd();
 
-
 // similar to the client side configuration for development mode but without
 //the hot reload plugin and debug configuration
 
@@ -16,9 +15,13 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: ["babel-loader"],
+      },
+      {
+        test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
+        use: "file-loader",
       },
     ],
   },
