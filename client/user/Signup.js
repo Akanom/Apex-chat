@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import { create } from "lodash";
 import React, { useState } from "react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   //define that stateful functions
@@ -104,8 +104,7 @@ const Signup = () => {
             color="primary"
             variant="contained"
             onClick={clickSubmit}
-            className={classes.submit}
-          >
+            className={classes.submit}>
             Submit
           </Button>
         </CardActions>

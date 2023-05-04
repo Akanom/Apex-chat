@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { signin } from "./api-auth";
-import {Redirect} from "react-router-dom"
-
+import { Redirect } from "react-router-dom";
 
 const Signin = () => {
   const [values, setValues] = useState({
@@ -32,17 +31,18 @@ const Signin = () => {
     });
   };
   //use the redirect to conditionally Redirect component from React Router
-  const {take}=props.location.state||{
-    take:{
-      pathname:"/"
-    }
+  const { take } = props.location.state || {
+    take: {
+      pathname: "/",
+    },
+  };
+  const { redirectToReferrer } = values;
+  if (redirectToReferrer) {
+    return <Redirect to={take} />;
   }
-  const {redirectToReferrer}=values
-  if (redirectToReferrer){
-    return (<Redirect to= {take}/>)
-  }
-  return (<div>
-    <Card className={classes.card}>
+  return (
+    <div>
+      <Card className={classes.card}>
         <CardContent>
           <Typography variant="h5" className={classes.title}>
             Sign in
@@ -81,13 +81,13 @@ const Signin = () => {
             color="primary"
             variant="contained"
             onClick={clickSubmit}
-            className={classes.submit}
-          >
+            className={classes.submit}>
             Submit
           </Button>
         </CardActions>
       </Card>
-  </div>);
+    </div>
+  );
 };
 
 export default Signin;

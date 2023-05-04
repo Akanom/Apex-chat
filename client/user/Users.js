@@ -15,7 +15,7 @@ const Users = () => {
   //Perform side effect to pull out user data from the backend by using the useEffect hook function
   useEffect(() => {
     const abortController = new AbortController();
-    const signal = stopController.signal;
+    const signal = abortController.signal;
 
     list(signal).then((data) => {
       if (data && data.error) {
@@ -25,9 +25,9 @@ const Users = () => {
       }
     });
     //cleanup funtion that aborts the fetch funtion when the components unmounts
-    return () => {
+    return (cleanup = () => {
       abortController.abort();
-    };
+    });
   }, []);
 
   return (
