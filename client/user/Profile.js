@@ -1,6 +1,18 @@
+import {
+  Avatar,
+  IconButton,
+  Link,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import { Person } from "@material-ui/icons";
 import React from "react";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
+import ListItemText from "@material-ui/core";
 
 // The profile should connect to user information and render the view
 const Profile = () => {
@@ -37,7 +49,41 @@ const Profile = () => {
     return <Redirect to="/signin" />;
   }
 
-  return <div>Profile</div>;
+  return (
+    <div>
+      <Paper className={classes.root} elevation={5}>
+        <Typography>
+          <List dense>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <Person />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={user.name} secondary={user.email} />
+              {/* Users should be able to edit and delete anything on their profile */}
+              {auth.isAuthenticated().user &&
+                auth.isAuthenticated().user._id == user._id && (
+                  <ListItemSecondaryAction>
+                    <Link to={"/user/edit/" + user._id}>
+                      <IconButton aria-label="Edit" color="primary">
+                        <Edit />
+                      </IconButton>
+                    </Link>
+                  </ListItemSecondaryAction>
+                )}
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemText
+                primary={"Joined: " + new Date(user.created).toDateString()}
+              />
+            </ListItem>
+          </List>
+        </Typography>
+      </Paper>
+    </div>
+  );
 };
 
 export default Profile;
