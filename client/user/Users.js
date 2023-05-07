@@ -4,9 +4,16 @@ import {
   ListItemAvatar,
   ListItemSecondaryAction,
   Typography,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+  Link,
 } from "@material-ui/core";
-import { ArrowForward } from "@material-ui/icons";
-import React, { useState } from "react";
+import ArrowForward from "@material-ui/icons/ArrowForward";
+import React, { useState, useEffect } from "react";
+import { list } from "./api-user.js";
+import Person from "@material-ui/icons/Person";
 
 const Users = () => {
   //declare state vairiable users,  which can be used to invoke setUsers
@@ -40,7 +47,7 @@ const Users = () => {
           {users.map((item, j) => {
             //iterate through the array of users in the state using the map function
             return (
-              <link to={"/user/" + item.id} key={j}>
+              <Link to={"/user/" + item.id} key={j}>
                 <ListItem button>
                   <ListItemAvatar>
                     <Avatar>
@@ -54,7 +61,7 @@ const Users = () => {
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              </link>
+              </Link>
             );
           })}
         </List>

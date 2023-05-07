@@ -2,7 +2,7 @@
 
 import config from "./../config/config";
 import webpack from "webpack";
-import webpackHotMiddleware from "webpack-hot-middleware";
+import webpackHotMiddleware from "webpack-dev-middleware";
 import webpackMiddleware from "webpack-dev-middleware";
 import webpackConfig from "./../webpack.config.client";
 

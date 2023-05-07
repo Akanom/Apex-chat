@@ -10,12 +10,13 @@ import bodyParser from "body-parser";
 import ReactDOMServer from "react-dom/server";
 import React from "react";
 import MainRouter from "./../client/MainRouter";
-import { StaticRouter } from "react-router/StaticRouter";
+import { StaticRouter } from "react-router";
 //  meant for development
 //import devBundle from "./devBundle";
 import path from "path";
-import { ServerStyleSheets, ThemeProvider } from "@material-ui/core";
+import { ServerStyleSheets, ThemeProvider } from "@material-ui/styles";
 import theme from "./../client/theme";
+
 
 const CURRENT_WORKING_DIR = process.cwd();
 const app = express();

@@ -18,12 +18,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: "This password is required!",
   },
+  salt: String,
+  updated: Date,
   created: {
     type: Date,
     default: Date.now,
   },
-  salt: String,
-  updated: Date,
 });
 
 //Password is not stored in the user document but handled as a virtual string
