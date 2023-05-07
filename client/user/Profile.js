@@ -8,11 +8,11 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+import ListItemText from "@material-ui/core/ListItemText";
 import { Person } from "@material-ui/icons";
 import React from "react";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
-import ListItemText from "@material-ui/core";
 
 // The profile should connect to user information and render the view
 const Profile = () => {

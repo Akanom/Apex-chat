@@ -7,17 +7,20 @@ import Template from "./../template";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import bodyParser from "body-parser";
+import ReactDOMServer from "react-dom/server";
+import React from "react";
+import MainRouter from "./../client/MainRouter";
+import { StaticRouter } from "react-router/StaticRouter";
 //  meant for development
 //import devBundle from "./devBundle";
 import path from "path";
-
+import { ServerStyleSheets, ThemeProvider } from "@material-ui/core";
+import theme from "./../client/theme";
 
 const CURRENT_WORKING_DIR = process.cwd();
 const app = express();
 //  meant for development
 // devBundle.compile(app)
-
-
 
 app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 app.use(bodyParser.json()); // handles complexity of parsing req objects so that it can simplify communication
@@ -27,8 +30,33 @@ app.use(cookieParser()); //parse and set cookies
 app.use(cors()); // enables cross-origin resource sharing
 app.use(helmet()); // collect various middleware to enable various HTTP headers
 
-app.get("/", (req, res) => {
-  res.status(200).send(Template());
+app.get("*", (req, res) => {
+  // res.status(200).send(Template());
+  // Generate CSS styles using Material-UI ServerSheetSheets
+  const sheets = new ServerStyleSheets();
+  // Use renderToString to generate markup which renders components specific to the route requested
+  const context = {};
+  const markup = ReactDOMServer.renderToString(
+    sheets.collect(
+      //stateless static router is used instead of the BrowserRouter
+      <StaticRouter location={req.url} context={context}>
+        <ThemeProvider theme={theme}>
+          <MainRouter />
+        </ThemeProvider>
+      </StaticRouter>
+    )
+  );
+  // Return template with markup and CSS styles in the response
+  if (context.url) {
+    return res.redirect(303, context.url);
+  }
+  const css = sheets.toString();
+  res.status(200).send(
+    Template({
+      markup: markup,
+      css: css,
+    })
+  );
 });
 
 //Mounting of API's
