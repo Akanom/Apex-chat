@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemText,
   Link,
+  makeStyles
 } from "@material-ui/core";
 import ArrowForward from "@material-ui/icons/ArrowForward";
 import React, { useState, useEffect } from "react";
@@ -16,6 +17,7 @@ import { list } from "./api-user.js";
 import Person from "@material-ui/icons/Person";
 
 const Users = () => {
+  const classes=useStyles()
   //declare state vairiable users,  which can be used to invoke setUsers
   const [users, setUsers] = useState([]);
   //Interacting with the backend
@@ -69,5 +71,47 @@ const Users = () => {
     </>
   );
 };
+
+const useStyles = makeStyles(theme => ({
+  card: {
+    maxWidth: 600,
+    margin: 'auto',
+    textAlign: 'center',
+    marginTop: theme.spacing(5),
+    paddingBottom: theme.spacing(2),
+    backgroundColor: '#F0F2F5', 
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'},
+  error: {
+    verticalAlign: 'middle'
+  },
+  title: {
+    marginTop: theme.spacing(2),
+    color: '#3B5998', 
+    fontSize: '24px', 
+    fontWeight: 'bold'
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 300,
+    backgroundColor: '#F7F9FA', 
+    borderRadius: '5px', 
+    '& .MuiInputBase-input': {
+      padding: '10px',
+      fontWeight: 'bold', 
+      letterSpacing: '0.5px' 
+    }
+  },
+  submit: {
+    margin: 'auto',
+    marginBottom: theme.spacing(2),
+    borderRadius: '20px', 
+    padding: '10px 30px',
+    fontWeight: 'bold', 
+    '&:hover': { 
+      cursor: 'pointer' 
+    }
+  }
+}));
 
 export default Users;

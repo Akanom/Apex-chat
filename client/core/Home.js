@@ -26,8 +26,8 @@ const Home = () => {
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth: "100%",
-    height: "100%",
+    maxWidth: "90%",
+    height: "65%",
     margin: "auto",
     top: 0,
     left: 0,

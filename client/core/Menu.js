@@ -41,7 +41,7 @@ const Menu = withRouter(({ history }) => (
       }
       {
         //my profile and sign out
-        !auth.isAuthenticated() && !auth.isAuthenticated() && (
+        auth.isAuthenticated() && !auth.isAuthenticated() && (
           <span>
             <Link to={"/user/" + auth.isAuthenticated().user._id}>
               <Button
