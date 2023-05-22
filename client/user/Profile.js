@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
-import { Person } from "@material-ui/icons";
+import { values } from "lodash";
 import React from "react";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
@@ -18,6 +18,9 @@ import { Redirect } from "react-router-dom";
 const Profile = () => {
   const [user, setUser] = useState({});
   const [redirectToSignIn, setRedirectToSignIn] = useState(false);
+  const photoUrl = values.user._id
+    ? `/api/users/photo/${values.user._id}?${new Date().getTime()}`
+    : "/api/users/defaultphoto";
   //   Use useEffect to perform side effects
   useEffect(() => {
     const abortController = new AbortController();
@@ -56,9 +59,7 @@ const Profile = () => {
           <List dense>
             <ListItem>
               <ListItemAvatar>
-                <Avatar>
-                  <Person />
-                </Avatar>
+                <Avatar src={photoUrl} />
               </ListItemAvatar>
               <ListItemText primary={user.name} secondary={user.email} />
               {/* Users should be able to edit and delete anything on their profile */}
@@ -75,6 +76,9 @@ const Profile = () => {
             </ListItem>
             <Divider />
             <ListItem>
+              <ListItem>
+                <ListItemText primary={this.state.user.about} />
+              </ListItem>
               <ListItemText
                 primary={"Joined: " + new Date(user.created).toDateString()}
               />

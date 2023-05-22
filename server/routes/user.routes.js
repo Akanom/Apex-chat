@@ -22,4 +22,10 @@ router
 //This allows the userId to handle routes by executing the userByID controller functions
 router.param("userId", userCtrl.userByID);
 
+//routes to retreive photos stored in the database and also fetch default photos if users has not uploaded any
+router
+  .route("/api/users/photo/:userId")
+  .get(userCtrl.photo, userCtrl.defaultPhoto);
+router.route("/api/users/defaultphoto").get(userCtrl.defaultPhoto);
+
 export default router;

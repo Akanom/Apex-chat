@@ -2,6 +2,14 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 
 const UserSchema = new mongoose.Schema({
+  photo:{
+    data:Buffer,
+    contentType:String// image will be converted to binary data and stored in MongoDB
+  },
+  about: {
+    type: String,
+    trim: true,
+  },
   name: {
     type: String,
     trim: true, // remove whitespace character, null, and specified characters
