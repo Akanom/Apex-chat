@@ -28,4 +28,16 @@ router
   .get(userCtrl.photo, userCtrl.defaultPhoto);
 router.route("/api/users/defaultphoto").get(userCtrl.defaultPhoto);
 
+//follow and unfollow routers
+router
+  .route("/api/users/unfollow")
+  .put(
+    authCtrl.requireSignin,
+    userCtrl.removeFollowing,
+    userCtrl.removeFollower
+  );
+router
+  .route("/api/users/follow")
+  .put(authCtrl.requireSignin, userCtrl.addFollowing, userCtrl.addFollower);
+
 export default router;

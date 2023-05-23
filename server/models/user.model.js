@@ -2,9 +2,11 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 
 const UserSchema = new mongoose.Schema({
-  photo:{
-    data:Buffer,
-    contentType:String// image will be converted to binary data and stored in MongoDB
+  followers: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
+  following: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
+  photo: {
+    data: Buffer,
+    contentType: String, // image will be converted to binary data and stored in MongoDB
   },
   about: {
     type: String,
