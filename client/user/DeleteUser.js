@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
+import PropTypes from 'prop-types';
 
 // Initiate state with open set to false for the Dialog  component and redirect to false
 // The DeleteUser component will receive props from the parent component (userId and send it

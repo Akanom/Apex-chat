@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   Card,
@@ -12,9 +14,50 @@ import {
   Typography,
   makeStyles,
 } from "@material-ui/core";
-import { create } from "lodash";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { create } from "./api-user.js";
+
+const useStyles = makeStyles((theme) => ({
+  card: {
+    maxWidth: 600,
+    margin: "auto",
+    textAlign: "center",
+    marginTop: theme.spacing(5),
+    paddingBottom: theme.spacing(2),
+    backgroundColor: "#F0F2F5",
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+  },
+  error: {
+    verticalAlign: "middle",
+  },
+  title: {
+    marginTop: theme.spacing(2),
+    color: "#3B5998",
+    fontSize: "24px",
+    fontWeight: "bold",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 300,
+    backgroundColor: "#F7F9FA",
+    borderRadius: "5px",
+    "& .MuiInputBase-input": {
+      padding: "10px",
+      fontWeight: "bold",
+      letterSpacing: "0.5px",
+    },
+  },
+  submit: {
+    margin: "auto",
+    marginBottom: theme.spacing(2),
+    borderRadius: "20px",
+    padding: "10px 30px",
+    fontWeight: "bold",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+}));
 
 const Signup = () => {
   const classes = useStyles();
@@ -110,7 +153,7 @@ const Signup = () => {
         </CardActions>
       </Card>
       {/*  //On successfully sign-in, the user is given a confirmation */}
-      <Dialog open={values.open} disableBackdropClick={true}>
+      <Dialog open={values.open} onClose={() => {}}>
         <DialogTitle>New Account</DialogTitle>
         <DialogContentText>
           The account has been created successfully!
@@ -127,47 +170,7 @@ const Signup = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    maxWidth: 600,
-    margin: "auto",
-    textAlign: "center",
-    marginTop: theme.spacing(5),
-    paddingBottom: theme.spacing(2),
-    backgroundColor: "#F0F2F5",
-    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-  },
-  error: {
-    verticalAlign: "middle",
-  },
-  title: {
-    marginTop: theme.spacing(2),
-    color: "#3B5998",
-    fontSize: "24px",
-    fontWeight: "bold",
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 300,
-    backgroundColor: "#F7F9FA",
-    borderRadius: "5px",
-    "& .MuiInputBase-input": {
-      padding: "10px",
-      fontWeight: "bold",
-      letterSpacing: "0.5px",
-    },
-  },
-  submit: {
-    margin: "auto",
-    marginBottom: theme.spacing(2),
-    borderRadius: "20px",
-    padding: "10px 30px",
-    fontWeight: "bold",
-    "&:hover": {
-      cursor: "pointer",
-    },
-  },
-}));
-
 export default Signup;
+
+
+

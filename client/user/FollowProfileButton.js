@@ -1,4 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { unfollow, follow } from "./api-user";
+import { Button } from "@material-ui/core";
 
 function FollowProfileButton(props) {
   const followClick = () => {
@@ -21,7 +24,7 @@ function FollowProfileButton(props) {
     </div>
   );
 }
-FollowProfileButton.prototype = {
+FollowProfileButton.propTypes = {
   following: PropTypes.bool.isRequired,
   onButtonClick: PropTypes.func.isRequired,
 };
