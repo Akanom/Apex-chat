@@ -15,6 +15,7 @@ import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import FollowProfileButton from "./FollowProfileButton";
 import DeleteUser from "./DeleteUser";
+import ProfileTabs from "./ProfileTabs";
 
 // The profile should connect to user information and render the view
 const Profile = ({ match }) => {
@@ -121,6 +122,7 @@ const Profile = ({ match }) => {
             </ListItem>
           </List>
         </Typography>
+        <ProfileTabs user={values.user} posts={posts} removePostUpdate={removePost}/>
       </Paper>
     </div>
   );
