@@ -13,9 +13,11 @@ import { values } from "lodash";
 import React from "react";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
+import FollowProfileButton from "./FollowProfileButton";
+import DeleteUser from "./DeleteUser";
 
 // The profile should connect to user information and render the view
-const Profile = () => {
+const Profile = ({ match }) => {
   const [user, setUser] = useState({});
   const [redirectToSignIn, setRedirectToSignIn] = useState(false);
   const photoUrl = values.user._id
@@ -38,7 +40,8 @@ const Profile = () => {
         setRedirectToSignIn(true);
         //otherwise update with user information
       } else {
-        setUser(data);
+        let following = checkFollow(data);
+        setValues({ ...values, user: data, following: following });
       }
     });
 
@@ -46,6 +49,32 @@ const Profile = () => {
       abortController.abort();
     });
   }, [match.params.userId]); //only reruns when the userId updates
+
+  const clickFollowButton = (callApi) => {
+    callApi(
+      {
+        userId: jwt.user._id,
+      },
+      {
+        t: jwt.token,
+      },
+      values.user.id
+    ).then((data) => {
+      if (data.error) {
+        setValues({ ...values, errors: data.error });
+      } else {
+        setValues({ ...values, user: data, following: !values.following });
+      }
+    });
+  };
+  //determine the value to set in following, the checkFollow method will check if the user exist
+  //in the fetch following list, then return a match found, otherwise, it retuns undfined
+  const checkFollow = (user) => {
+    const match = user.followers.some((follower) => {
+      return follower._id == jwt.user._id;
+    });
+    return match;
+  };
 
   //if the user is not authenticated, redirect to signin
   if (redirectToSignIn) {
@@ -64,15 +93,22 @@ const Profile = () => {
               <ListItemText primary={user.name} secondary={user.email} />
               {/* Users should be able to edit and delete anything on their profile */}
               {auth.isAuthenticated().user &&
-                auth.isAuthenticated().user._id == user._id && (
-                  <ListItemSecondaryAction>
-                    <Link to={"/user/edit/" + user._id}>
-                      <IconButton aria-label="Edit" color="primary">
-                        <Edit />
-                      </IconButton>
-                    </Link>
-                  </ListItemSecondaryAction>
-                )}
+              auth.isAuthenticated().user._id == values.user._id ? (
+                <ListItemSecondaryAction>
+                  <Link to={"/user/edit/" + values.user._id}>
+                    <IconButton aria-label="Edit" color="primary">
+                      <Edit />
+                    </IconButton>
+                  </Link>
+                  <DeleteUser userId={values.user._id} />
+                </ListItemSecondaryAction>
+              ) : (
+                //load the follow button inside the view
+                <FollowProfileButton
+                  following={values.following}
+                  onButtonClick={clickFollowButton}
+                />
+              )}
             </ListItem>
             <Divider />
             <ListItem>

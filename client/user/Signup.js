@@ -10,14 +10,14 @@ import {
   Icon,
   TextField,
   Typography,
-  makeStyles
+  makeStyles,
 } from "@material-ui/core";
 import { create } from "lodash";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
-  const classes=useStyles()
+  const classes = useStyles();
   //define that stateful functions
   const [values, setValues] = useState({
     name: "",
@@ -71,7 +71,6 @@ const Signup = () => {
             onChange={handleChange("name")}
             margin="normal"
           />
-          <br />
           <TextField
             id="email"
             type="email"
@@ -81,7 +80,6 @@ const Signup = () => {
             onChange={handleChange("email")}
             margin="normal"
           />
-          <br />
           <TextField
             id="password"
             type="password"
@@ -129,47 +127,47 @@ const Signup = () => {
   );
 };
 
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 600,
-    margin: 'auto',
-    textAlign: 'center',
+    margin: "auto",
+    textAlign: "center",
     marginTop: theme.spacing(5),
     paddingBottom: theme.spacing(2),
-    backgroundColor: '#F0F2F5', 
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'},
+    backgroundColor: "#F0F2F5",
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+  },
   error: {
-    verticalAlign: 'middle'
+    verticalAlign: "middle",
   },
   title: {
     marginTop: theme.spacing(2),
-    color: '#3B5998', 
-    fontSize: '24px', 
-    fontWeight: 'bold'
+    color: "#3B5998",
+    fontSize: "24px",
+    fontWeight: "bold",
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 300,
-    backgroundColor: '#F7F9FA', 
-    borderRadius: '5px', 
-    '& .MuiInputBase-input': {
-      padding: '10px',
-      fontWeight: 'bold', 
-      letterSpacing: '0.5px' 
-    }
+    backgroundColor: "#F7F9FA",
+    borderRadius: "5px",
+    "& .MuiInputBase-input": {
+      padding: "10px",
+      fontWeight: "bold",
+      letterSpacing: "0.5px",
+    },
   },
   submit: {
-    margin: 'auto',
+    margin: "auto",
     marginBottom: theme.spacing(2),
-    borderRadius: '20px', 
-    padding: '10px 30px',
-    fontWeight: 'bold', 
-    '&:hover': { 
-      cursor: 'pointer' 
-    }
-  }
+    borderRadius: "20px",
+    padding: "10px 30px",
+    fontWeight: "bold",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
 }));
 
 export default Signup;
