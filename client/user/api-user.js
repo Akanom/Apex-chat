@@ -85,40 +85,56 @@ const update = async (params, credentials, user) => {
 };
 
 //Accessing the follow and unfollow API's in views
-const follow=async (params, credentials, followId)=>{
-try {
-  let response=await fetch("/api/users/follow/",{
-    method:"PUT",
-    headers:{
-      "Accept":"Application/json",
-      "Content-Type":"application/json",
-      "Authorization":"Bearer"+credentials.t
-    },
-    body:JSON.stringify({userId:params.userId,followId:followId})
-  })
-  return await response.json()
-} catch (err) {
-  console.log(err)
-}
-}
-
-const unfollow=async (params, credentials, unfollowId)=>{
+const follow = async (params, credentials, followId) => {
   try {
-    let response=await fetch("/api/users/unfollow/",{
-      method:"PUT",
-      headers:{
-        "Accept":"Application/json",
-        "Content-Type":"application/json",
-        "Authorization":"Bearer"+credentials.t
+    let response = await fetch("/api/users/follow/", {
+      method: "PUT",
+      headers: {
+        Accept: "Application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer" + credentials.t,
       },
-      body:JSON.stringify({userId:params.userId,followId:unfollowId})
-    })
-    return await response.json()
+      body: JSON.stringify({ userId: params.userId, followId: followId }),
+    });
+    return await response.json();
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
+};
+
+const unfollow = async (params, credentials, unfollowId) => {
+  try {
+    let response = await fetch("/api/users/unfollow/", {
+      method: "PUT",
+      headers: {
+        Accept: "Application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer" + credentials.t,
+      },
+      body: JSON.stringify({ userId: params.userId, followId: unfollowId }),
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
   }
+};
 
+//finding people and displaying them
+const findPeople = async (params, credentials, signal) => {
+  try {
+    let response = await fetch("/api/users/findpeople/" + params.userId, {
+      method: "GET",
+      signal: signal,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer" + credentials.t,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-
-export { create, remove, list, read, update,follow,unfollow };
+export { create, remove, list, read, update, follow, unfollow, findPeople };

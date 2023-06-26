@@ -177,7 +177,6 @@ const removeFollower = async (req, res, next) => {
   }
 };
 
-
 //Add remove following controller
 const removeFollowing = async (req, res, next) => {
   try {
@@ -185,6 +184,24 @@ const removeFollowing = async (req, res, next) => {
       $pull: { following: req.body.followId },
     });
     next();
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
+
+//Fetching users not followed
+const findPeople = async (req, res) => {
+  let following = req.profile.following;
+  following.push(req.profile._id);
+  try {
+    let users = await User.find({
+      _id: {
+        $nin: following,
+      },
+    }).select("name");
+    res.json(users);
   } catch (err) {
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err),
@@ -204,5 +221,6 @@ export default {
   addFollowing,
   addFollower,
   removeFollower,
-  removeFollowing
+  removeFollowing,
+  findPeople,
 };

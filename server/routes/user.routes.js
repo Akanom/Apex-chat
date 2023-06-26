@@ -40,4 +40,9 @@ router
   .route("/api/users/follow")
   .put(authCtrl.requireSignin, userCtrl.addFollowing, userCtrl.addFollower);
 
+//fetching users not followed
+router
+  .route("/api/users/findpeople/:userId")
+  .get(authCtrl.requireSignin, userCtrl.findPeople);
+
 export default router;
