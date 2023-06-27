@@ -16,6 +16,7 @@ import React from "react";
 import { useEffect } from "react";
 
 const findPeople = () => {
+  const classes = useStyles();
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -115,5 +116,30 @@ const findPeople = () => {
     </div>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(2),
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+    background: "#E5E5E5",
+    height: "100vh",
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    margin: "auto",
+  },
+  gridList: {
+    width: 500,
+    height: 220,
+  },
+  tileText: {
+    textAlign: "center",
+    marginTop: 10,
+  },
+}));
 
 export default findPeople;

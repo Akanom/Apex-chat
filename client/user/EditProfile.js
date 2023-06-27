@@ -151,7 +151,7 @@ const EditProfile = () => {
         </CardActions>
       </Card>
       {/*  //On successfully sign-in, the user is given a confirmation */}
-      <Dialog open={values.open} disableBackdropClick={true}>
+      <Dialog open={values.open} onClose={true}>
         <DialogTitle>New Account</DialogTitle>
         <DialogContentText>
           The account has been created successfully!
