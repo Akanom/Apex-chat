@@ -1,6 +1,6 @@
 //To restrict user to view, update, or delete profile, JWT will be used
 import express from "express";
-import authCtrl from "../controllers/auth.controllers";
+import authCtrl from "../controllers/auth.controller";
 
 const router = express.Router();
 

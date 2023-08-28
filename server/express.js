@@ -6,11 +6,13 @@ import helmet from "helmet";
 import Template from "./../template";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
+import postRoutes from "./routes/post.routes"
 import bodyParser from "body-parser";
 import ReactDOMServer from "react-dom/server";
 import React from "react";
 import MainRouter from "./../client/MainRouter";
 import { StaticRouter } from "react-router";
+
 //  meant for development
 //import devBundle from "./devBundle";
 import path from "path";
@@ -65,6 +67,9 @@ app.use("/", userRoutes);
 
 // Mounting auth.routes
 app.use("/", authRoutes);
+
+//Mounting the post routes
+app.use("/",postRoutes)
 
 //Error handling
 //express-jwt throws an error whenever a token cannot be validated

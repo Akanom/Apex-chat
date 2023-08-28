@@ -1,7 +1,7 @@
 import User from "../models/user.model";
 import jwt from "jsonwebtoken";
 import expressJwt from "express-jwt";
-import config from "./../../config/config";
+import config from "../../config/config";
 
 // handling and providing JWT to sign-in and signout to enable authentication
 // and authorization

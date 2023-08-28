@@ -12,9 +12,9 @@ import {
   Icon,
   TextField,
   Typography,
-  makeStyles,
 } from "@material-ui/core";
 import { create } from "./api-user.js";
+import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -78,12 +78,14 @@ const Signup = () => {
   //create a clickSubmit button to submit forms. it will take inputs value from the state
   //and call the create fetch method to sign-up the user with the backend.
   const clickSubmit = () => {
+    console.log("Submitting:", values);
     const user = {
       name: values.name || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
     };
     create(user).then((data) => {
+      console.log("Response:", data);
       if (data.error) {
         setValues({
           ...values,
@@ -98,6 +100,7 @@ const Signup = () => {
       }
     });
   };
+  
 
   return (
     <div>
@@ -134,7 +137,7 @@ const Signup = () => {
           />
           <br />
           {values.error && ( //error message block, conditionally rendered depending on the response from the server.
-            <Typography component="p" color="error">
+            <Typography variant="body2" color="error">
               <Icon color="error" className={classes.error}>
                 error
               </Icon>
@@ -147,20 +150,21 @@ const Signup = () => {
             color="primary"
             variant="contained"
             onClick={clickSubmit}
-            className={classes.submit}>
+            className={classes.submit}
+          >
             Submit
           </Button>
         </CardActions>
       </Card>
       {/*  //On successfully sign-in, the user is given a confirmation */}
-      <Dialog open={values.open} onClose={() => {}}>
+      <Dialog open={values.open} onClose={() => setValues({ ...values, open: false })}>
         <DialogTitle>New Account</DialogTitle>
         <DialogContentText>
           The account has been created successfully!
         </DialogContentText>
         <DialogActions>
           <Link to="/signin">
-            <Button color="primary" autoFocus="autoFocus" variant="contained">
+            <Button color="primary" autoFocus variant="contained">
               Sign-in
             </Button>
           </Link>
@@ -171,6 +175,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-
-

@@ -41,26 +41,30 @@ const Menu = withRouter(({ history }) => (
       }
       {
         //my profile and sign out
-        auth.isAuthenticated() && (
-          <span>
-            <Link to={"/user/" + auth.isAuthenticated().user._id}>
+        auth.isAuthenticated() &&
+          auth.isAuthenticated().user &&
+          auth.isAuthenticated().user._id && (
+            <span>
+              <Link to={"/user/" + auth.isAuthenticated()?.user?._id}>
+                <Button
+                  style={isActive(
+                    history,
+                    "/user/" + auth.isAuthenticated().user._id
+                  )}
+                >
+                  My Profile
+                </Button>
+              </Link>
               <Button
-                style={isActive(
-                  history,
-                  "/user/" + auth.isAuthenticated().user._id
-                )}>
-                My Profile
+                color="inherit"
+                onClick={() => {
+                  auth.clearJWT(() => history.push("/"));
+                }}
+              >
+                Sign Out
               </Button>
-            </Link>
-            <Button
-              color="inherit"
-              onClick={() => {
-                auth.clearJWT(() => history.push("/"));
-              }}>
-              Sign Out
-            </Button>
-          </span>
-        )
+            </span>
+          )
       }
     </Toolbar>
   </AppBar>
