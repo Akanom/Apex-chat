@@ -21,7 +21,7 @@ node_modules
 .env
 
 # Ignore Yarn error log
-*yarn-error.log/
+yarn-error.log
 
 # Ignore Visual Studio Code settings
-*.vscode/
+*.vscode
