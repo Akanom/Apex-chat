@@ -39,41 +39,45 @@ const Menu = withRouter(({ history }) => (
           </span>
         )
       }
-      {
-        //my profile and sign out
-        auth.isAuthenticated() &&
-          auth.isAuthenticated().user &&
-          auth.isAuthenticated().user._id && (
-            <span>
-              <Link to={"/user/" + auth.isAuthenticated()?.user?._id}>
-                <Button
-                  style={isActive(
-                    history,
-                    "/user/" + auth.isAuthenticated().user._id
-                  )}
-                >
-                  My Profile
-                </Button>
-              </Link>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  auth.clearJWT(() => history.push("/"));
-                }}
-              >
-                Sign Out
-              </Button>
-            </span>
-          )
-      }
+      {auth.isAuthenticated() && auth.isAuthenticated().user && (
+        <span>
+          <Link
+            to={
+              auth.isAuthenticated().user._id
+                ? "/user/" + auth.isAuthenticated().user._id
+                : "#"
+            }
+          >
+            <Button
+              style={isActive(
+                history,
+                "/user/" + auth.isAuthenticated().user._id
+              )}
+            >
+              My Profile
+            </Button>
+          </Link>
+          <Button
+            color="inherit"
+            onClick={() => {
+              auth.clearJWT(() => history.push("/"));
+            }}
+          >
+            Sign Out
+          </Button>
+        </span>
+      )}
     </Toolbar>
   </AppBar>
 ));
 
 //change the color conditionally
 const isActive = (history, path) => {
-  if (history.location.pathname == path) return { color: "#f783ac" };
-  else return { color: "ffffff" };
+  if (history.location.pathname === path) {
+    return { color: "#f783ac" };
+  } else {
+    return { color: "#ffffff" };
+  }
 };
 
 export default Menu;

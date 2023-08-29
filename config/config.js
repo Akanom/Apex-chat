@@ -13,4 +13,5 @@ const config = {
   mongoUri: "mongodb://127.0.0.1:27017/apex-chat"
 }; // mongodb database location
 
-export default config;
+module.exports = config;
+

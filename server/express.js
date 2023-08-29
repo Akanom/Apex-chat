@@ -1,14 +1,7 @@
-import express from "express";
-import compress from "compression";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import helmet from "helmet";
 import Template from "./../template";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import postRoutes from "./routes/post.routes"
-import bodyParser from "body-parser";
-import ReactDOMServer from "react-dom/server";
 import React from "react";
 import MainRouter from "./../client/MainRouter";
 import { StaticRouter } from "react-router";
@@ -19,12 +12,19 @@ import path from "path";
 import { ServerStyleSheets, ThemeProvider } from "@material-ui/styles";
 import theme from "./../client/theme";
 
+const express=require("express")
+const compress = require("compression");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const helmet = require("helmet");
+const bodyParser = require("body-parser");
+const ReactDOMServer = require("react-dom/server");
+
 
 const CURRENT_WORKING_DIR = process.cwd();
 const app = express();
 //  meant for development
 // devBundle.compile(app)
-
 app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 app.use(bodyParser.json()); // handles complexity of parsing req objects so that it can simplify communication
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -1,34 +1,82 @@
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   IconButton,
-  Link,
   ListItem,
   ListItemAvatar,
   ListItemSecondaryAction,
   Paper,
   Typography,
+  List,
+  Divider,
 } from "@material-ui/core";
 import ListItemText from "@material-ui/core/ListItemText";
-import { values } from "lodash";
-import React from "react";
-import { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Edit } from "@material-ui/icons";
+import { read } from "./api-user"; 
 import FollowProfileButton from "./FollowProfileButton";
 import DeleteUser from "./DeleteUser";
 import ProfileTabs from "./ProfileTabs";
+import auth from "./../auth/auth-helper";
+import { makeStyles } from "@material-ui/core/styles"
+import { Link } from "react-router-dom";
 
-// The profile should connect to user information and render the view
+const useStyles = makeStyles((theme) => ({
+  card: {
+    maxWidth: 600,
+    margin: "auto",
+    textAlign: "center",
+    marginTop: theme.spacing(5),
+    paddingBottom: theme.spacing(2),
+    backgroundColor: "#F0F2F5",
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+  },
+  error: {
+    verticalAlign: "middle",
+  },
+  title: {
+    marginTop: theme.spacing(2),
+    color: "#3B5998",
+    fontSize: "24px",
+    fontWeight: "bold",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 300,
+    backgroundColor: "#F7F9FA",
+    borderRadius: "5px",
+    "& .MuiInputBase-input": {
+      padding: "10px",
+      fontWeight: "bold",
+      letterSpacing: "0.5px",
+    },
+  },
+  submit: {
+    margin: "auto",
+    marginBottom: theme.spacing(2),
+    borderRadius: "20px",
+    padding: "10px 30px",
+    fontWeight: "bold",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+}));
+
+
+
 const Profile = ({ match }) => {
+  const classes = useStyles();
   const [user, setUser] = useState({});
   const [redirectToSignIn, setRedirectToSignIn] = useState(false);
-  const photoUrl = values.user._id
-    ? `/api/users/photo/${values.user._id}?${new Date().getTime()}`
-    : "/api/users/defaultphoto";
-  //   Use useEffect to perform side effects
+  const [values, setValues] = useState({ following: false }); // Define your values state
+
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
     const jwt = auth.isAuthenticated();
+
+    // Use the read function from your api-user to fetch user data
     read(
       {
         userId: match.params.userId,
@@ -37,47 +85,22 @@ const Profile = ({ match }) => {
       signal
     ).then((data) => {
       if (data && data.error) {
-        //if user is not authenticated, redirect to signin
         setRedirectToSignIn(true);
-        //otherwise update with user information
       } else {
-        let following = checkFollow(data);
+        let following = checkFollow(data, jwt);
         setValues({ ...values, user: data, following: following });
       }
     });
 
-    return (cleanup = () => {
+    return () => {
       abortController.abort();
-    });
-  }, [match.params.userId]); //only reruns when the userId updates
+    };
+  }, [match.params.userId]);
 
-  const clickFollowButton = (callApi) => {
-    callApi(
-      {
-        userId: jwt.user._id,
-      },
-      {
-        t: jwt.token,
-      },
-      values.user.id
-    ).then((data) => {
-      if (data.error) {
-        setValues({ ...values, errors: data.error });
-      } else {
-        setValues({ ...values, user: data, following: !values.following });
-      }
-    });
-  };
-  //determine the value to set in following, the checkFollow method will check if the user exist
-  //in the fetch following list, then return a match found, otherwise, it retuns undfined
-  const checkFollow = (user) => {
-    const match = user.followers.some((follower) => {
-      return follower._id == jwt.user._id;
-    });
-    return match;
+  const checkFollow = (user, jwt) => {
+    return user.followers.some((follower) => follower._id === jwt.user._id);
   };
 
-  //if the user is not authenticated, redirect to signin
   if (redirectToSignIn) {
     return <Redirect to="/signin" />;
   }
@@ -89,22 +112,20 @@ const Profile = ({ match }) => {
           <List dense>
             <ListItem>
               <ListItemAvatar>
-                <Avatar src={photoUrl} />
+                <Avatar src={user.photo} />
               </ListItemAvatar>
               <ListItemText primary={user.name} secondary={user.email} />
-              {/* Users should be able to edit and delete anything on their profile */}
               {auth.isAuthenticated().user &&
-              auth.isAuthenticated().user._id == values.user._id ? (
+              auth.isAuthenticated().user._id === user._id ? (
                 <ListItemSecondaryAction>
-                  <Link to={"/user/edit/" + values.user._id}>
+                  <Link to={`/user/edit/${user._id}`}>
                     <IconButton aria-label="Edit" color="primary">
                       <Edit />
                     </IconButton>
                   </Link>
-                  <DeleteUser userId={values.user._id} />
+                  <DeleteUser userId={user._id} />
                 </ListItemSecondaryAction>
               ) : (
-                //load the follow button inside the view
                 <FollowProfileButton
                   following={values.following}
                   onButtonClick={clickFollowButton}
@@ -113,16 +134,14 @@ const Profile = ({ match }) => {
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItem>
-                <ListItemText primary={this.state.user.about} />
-              </ListItem>
+              <ListItemText primary={user.about} />
               <ListItemText
-                primary={"Joined: " + new Date(user.created).toDateString()}
+                primary={`Joined: ${new Date(user.created).toDateString()}`}
               />
             </ListItem>
           </List>
         </Typography>
-        <ProfileTabs user={values.user} posts={posts} removePostUpdate={removePost}/>
+        <ProfileTabs user={user} />
       </Paper>
     </div>
   );

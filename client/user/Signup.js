@@ -9,12 +9,12 @@ import {
   DialogActions,
   DialogContentText,
   DialogTitle,
-  Icon,
   TextField,
   Typography,
+  Icon,
 } from "@material-ui/core";
 import { create } from "./api-user.js";
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -100,8 +100,6 @@ const Signup = () => {
       }
     });
   };
-  
-
   return (
     <div>
       <Card className={classes.card}>
@@ -157,7 +155,10 @@ const Signup = () => {
         </CardActions>
       </Card>
       {/*  //On successfully sign-in, the user is given a confirmation */}
-      <Dialog open={values.open} onClose={() => setValues({ ...values, open: false })}>
+      <Dialog
+        open={values.open}
+        onClose={() => setValues({ ...values, open: false })}
+      >
         <DialogTitle>New Account</DialogTitle>
         <DialogContentText>
           The account has been created successfully!

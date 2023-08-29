@@ -60,7 +60,7 @@ UserSchema.methods = {
     if (!password) return "";
     try {
       const hashed_password = crypto
-        .createHmac("sha1", "this.salt") // use "sha1" instead of "shal"
+        .createHmac("sha256", this.salt) // use "sha1" instead of "shal"
         .update(password)
         .digest("hex");
       console.log("Setting hashed_password:", hashed_password);

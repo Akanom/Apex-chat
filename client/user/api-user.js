@@ -4,17 +4,23 @@
 const create = async (user) => {
   try {
     let res = await fetch("/api/users/", {
-      //fetch user data from the view component
-      method: "POST", //post call made at the create API route
+      method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
-    return await res.json(); //return promise
+    const data = await res.json();
+
+    if (res.ok) {
+      return data;
+    } else {
+      throw new Error(data.error); // Throw an error with the server error message
+    }
   } catch (err) {
-    console.log(err);
+    console.error(err); // Log the error for debugging
+    throw err; // Re-throw the error to propagate it to the caller
   }
 };
 
@@ -40,8 +46,8 @@ const read = async (params, credentials, signal) => {
       headers: {
         Accept: "Application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer" + credentials.t,
-      },
+        Authorization: "Bearer " + credentials.t,
+      },      
     });
     return await res.json();
   } catch (err) {
@@ -56,7 +62,7 @@ const remove = async (params, credentials) => {
       method: "DELETE",
       headers: {
         Accept: "application/json",
-        Authorization: "Bearer" + credentials.t,
+        Authorization: "Bearer " + credentials.t,
         "Content-Type": "application/json",
       },
     });
@@ -74,7 +80,7 @@ const update = async (params, credentials, user) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Autorization: "Bearer" + credentials.t,
+        Autorization: "Bearer " + credentials.t,
       },
       body: user,
     });
@@ -92,7 +98,7 @@ const follow = async (params, credentials, followId) => {
       headers: {
         Accept: "Application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer" + credentials.t,
+        Authorization: "Bearer " + credentials.t,
       },
       body: JSON.stringify({ userId: params.userId, followId: followId }),
     });
@@ -109,7 +115,7 @@ const unfollow = async (params, credentials, unfollowId) => {
       headers: {
         Accept: "Application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer" + credentials.t,
+        Authorization: "Bearer " + credentials.t,
       },
       body: JSON.stringify({ userId: params.userId, followId: unfollowId }),
     });
@@ -128,7 +134,7 @@ const findPeople = async (params, credentials, signal) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer" + credentials.t,
+        Authorization: "Bearer " + credentials.t,
       },
     });
     return await response.json();
@@ -136,5 +142,7 @@ const findPeople = async (params, credentials, signal) => {
     console.log(err);
   }
 };
+
+
 
 export { create, remove, list, read, update, follow, unfollow, findPeople };

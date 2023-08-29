@@ -1,7 +1,7 @@
-import express from "express";
 import mongoose from "mongoose";
 import config from "../config/config";
 import app from "./express";
+
 
 mongoose.Promise = global.Promise;
 
