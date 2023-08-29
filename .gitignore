@@ -1,15 +1,27 @@
+# Ignore Yarn related files and directories
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+.yarn/cache
+.pnp.*
 
-# Swap the comments on the following lines if you don't wish to use zero-installs
-# Documentation here: https://yarnpkg.com/features/zero-installs
-!.yarn/cache
-#.pnp.*
+# Ignore Node.js modules
 node_modules
+
+# Ignore build output
 /dist/
+
+# Ignore data directories (if needed)
 /data/
+
+# Ignore environment files
 .env
+
+# Ignore Yarn error log
+yarn-error.log
+
+# Ignore Visual Studio Code settings
+.vscode
