@@ -14,7 +14,7 @@ node_modules
 # Ignore build output
 /dist/
 
-# Ignore data directories (if needed)
+# Ignore data directories
 /data/
 
 # Ignore environment files
@@ -24,4 +24,4 @@ node_modules
 yarn-error.log
 
 # Ignore Visual Studio Code settings
-.vscode
+*.vscode
