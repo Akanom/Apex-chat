@@ -10,25 +10,26 @@ import { withRouter, Link } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Home";
 import auth from "./../auth/auth-helper";
 
-const Menu = withRouter(({ history }) => (
-  <AppBar position="static">
-    <Toolbar>
-      <Typography variant="h5" color="inherit">
-        Apex Chat
-      </Typography>
-      <Link to="/">
-        <IconButton aria-label="Home" style={isActive(history, "/")}>
-          <HomeIcon />
-        </IconButton>
-      </Link>
-      <Link to="/users">
-        <Button style={isActive(history, "/users")}>Users</Button>
-      </Link>
-      {/* Allow sign in, sign up, my profile, and signout to appear on the menu based 
-      on wheather the user is signed in or not */}
-      {
-        //sign in and sign up
-        !auth.isAuthenticated() && (
+const Menu = withRouter(({ history }) => {
+  const isAuthenticated = auth.isAuthenticated();
+
+  console.log('isAuthenticated:', isAuthenticated);
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h5" color="inherit">
+          Apex Chat
+        </Typography>
+        <Link to="/">
+          <IconButton aria-label="Home" style={isActive(history, "/")}>
+            <HomeIcon />
+          </IconButton>
+        </Link>
+        <Link to="/users">
+          <Button style={isActive(history, "/users")}>Users</Button>
+        </Link>
+        {!isAuthenticated ? (
           <span>
             <Link to="/signin">
               <Button style={isActive(history, "/signin")}>Sign In</Button>
@@ -37,47 +38,36 @@ const Menu = withRouter(({ history }) => (
               <Button style={isActive(history, "/signup")}>Sign Up</Button>
             </Link>
           </span>
-        )
-      }
-      {auth.isAuthenticated() && auth.isAuthenticated().user && (
-        <span>
-          <Link
-            to={
-              auth.isAuthenticated().user._id
-                ? "/user/" + auth.isAuthenticated().user._id
-                : "#"
-            }
-          >
-            <Button
-              style={isActive(
-                history,
-                "/user/" + auth.isAuthenticated().user._id
-              )}
-            >
-              My Profile
-            </Button>
-          </Link>
-          <Button
-            color="inherit"
-            onClick={() => {
-              auth.clearJWT(() => history.push("/"));
-            }}
-          >
-            Sign Out
-          </Button>
-        </span>
-      )}
-    </Toolbar>
-  </AppBar>
-));
+        ) : (
+          isAuthenticated.user?._id && (
+            <span>
+              <Link to={`/user/${isAuthenticated.user._id}`}>
+                <Button
+                  style={isActive(history, `/user/${isAuthenticated.user._id}`)}
+                >
+                  My Profile
+                </Button>
+              </Link>
+              <Button
+                color="inherit"
+                onClick={() => {
+                  auth.clearJWT(() => history.push("/"));
+                }}
+              >
+                Sign Out
+              </Button>
+            </span>
+          )
+        )}
+      </Toolbar>
+    </AppBar>
+  );
+});
 
-//change the color conditionally
 const isActive = (history, path) => {
-  if (history.location.pathname === path) {
-    return { color: "#f783ac" };
-  } else {
-    return { color: "#ffffff" };
-  }
+  return history.location.pathname === path
+    ? { color: "#f783ac" }
+    : { color: "#ffffff" };
 };
 
 export default Menu;

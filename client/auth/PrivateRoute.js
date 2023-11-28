@@ -1,5 +1,5 @@
 //Declare protected routes for the frontend to restrict view access based on users auth
-import React, { Component } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import auth from "./auth-helper";
 

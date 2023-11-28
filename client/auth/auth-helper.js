@@ -1,29 +1,42 @@
 import { signout } from "./api-auth.js";
-//Adding auth to the frontend
 
 const auth = {
-  //if user successfully sign-in, save jwt credentials
+  // If the user successfully signs in, save the JWT credentials
   authenticate(jwt, bc) {
-    if (typeof window !== "undefined")
-      //window if sucessfully defined
-      localStorage.setItem("jwt", JSON.stringify(jwt)); //session stored in localStorage
+    if (typeof window !== "undefined") {
+      // Use sessionStorage instead of localStorage to store the JWT token
+      sessionStorage.setItem("jwt", JSON.stringify(jwt));
+    }
     bc();
   },
 
-  //retreive the stored credentials to check that the current user is signed in
+  // Retrieve the stored credentials to check if the current user is signed in
   isAuthenticated() {
-    if (typeof window == "undefined") return false;
-    if (localStorage.getItem("jwt"))
-      return JSON.parse(localStorage.getItem("jwt"));
-    else return false;
+    if (typeof window === "undefined") return false;
+    
+    // Use sessionStorage instead of localStorage to retrieve the JWT token
+    const jwt = sessionStorage.getItem("jwt");
+    
+    if (jwt) {
+      return JSON.parse(jwt);
+    } else {
+      return false;
+    }
   },
 
-  //Deleting credentials when a user sign-out
+  // Deleting credentials when a user signs out
   clearJWT(bc) {
-    if (typeof window !== "undefined") localStorage.removeItem("jwt");
+    if (typeof window !== "undefined") {
+      // Use sessionStorage instead of localStorage to remove the JWT token
+      sessionStorage.removeItem("jwt");
+    }
+    
     bc();
+    
+    // Call the signout function, and remove the cookie as well
     signout().then((data) => {
-      document.cookie = "t=; expires=Wed, 31 Dec 1969 00:00:00 UTC; path=/;"; // dictate what happens after sign-out
+      // Clear the cookie by setting its expiration to the past
+      document.cookie = "t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     });
   },
 };

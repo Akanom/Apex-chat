@@ -15,6 +15,8 @@ import {
 } from "@material-ui/core";
 import { create } from "./api-user.js";
 import { makeStyles } from "@material-ui/core/styles";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -61,45 +63,41 @@ const useStyles = makeStyles((theme) => ({
 
 const Signup = () => {
   const classes = useStyles();
-  //define that stateful functions
-  const [values, setValues] = useState({
+  // Define initial form values
+  const initialValues = {
     name: "",
     password: "",
     email: "",
-    open: false,
-    error: "",
+  };
+
+  // Define validation schema using Yup
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
 
-  //define handlers function to be called when the input changes
-  const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
+  // Define state for handling form submission and dialog
+  const [formValues, setFormValues] = useState(initialValues);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [error, setError] = useState('');
+
+  // Handle form submission
+  const handleSubmit = (values) => {
+    create(values)
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setOpenDialog(true);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError('An error occurred while signing up.');
+      });
   };
 
-  //create a clickSubmit button to submit forms. it will take inputs value from the state
-  //and call the create fetch method to sign-up the user with the backend.
-  const clickSubmit = () => {
-    console.log("Submitting:", values);
-    const user = {
-      name: values.name || undefined,
-      email: values.email || undefined,
-      password: values.password || undefined,
-    };
-    create(user).then((data) => {
-      console.log("Response:", data);
-      if (data.error) {
-        setValues({
-          ...values,
-          error: data.error,
-        });
-      } else {
-        setValues({
-          ...values,
-          error: "",
-          open: true,
-        });
-      }
-    });
-  };
   return (
     <div>
       <Card className={classes.card}>
@@ -107,57 +105,73 @@ const Signup = () => {
           <Typography variant="h5" className={classes.title}>
             Sign Up
           </Typography>
-          <TextField
-            id="name"
-            label="Name"
-            className={classes.textField}
-            value={values.name}
-            onChange={handleChange("name")}
-            margin="normal"
-          />
-          <TextField
-            id="email"
-            type="email"
-            label="E-mail"
-            className={classes.textField}
-            value={values.email}
-            onChange={handleChange("email")}
-            margin="normal"
-          />
-          <TextField
-            id="password"
-            type="password"
-            label="Password"
-            className={classes.textField}
-            value={values.password}
-            onChange={handleChange("password")}
-            margin="normal"
-          />
-          <br />
-          {values.error && ( //error message block, conditionally rendered depending on the response from the server.
-            <Typography variant="body2" color="error">
-              <Icon color="error" className={classes.error}>
-                error
-              </Icon>
-              {values.error}
-            </Typography>
-          )}
-        </CardContent>
-        <CardActions>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={clickSubmit}
-            className={classes.submit}
+          {/* Use Formik to handle the form */}
+          <Formik
+            initialValues={formValues}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+              handleSubmit(values);
+            }}
           >
-            Submit
-          </Button>
-        </CardActions>
+            <Form>
+              <Field
+                type="text"
+                name="name"
+                label="Name"
+                component={TextField}
+                className={classes.textField}
+                margin="normal"
+              />
+              <ErrorMessage name="name" component="div" className={classes.error} />
+
+              <Field
+                type="email"
+                name="email"
+                label="E-mail"
+                component={TextField}
+                className={classes.textField}
+                margin="normal"
+              />
+              <ErrorMessage name="email" component="div" className={classes.error} />
+
+              <Field
+                type="password"
+                name="password"
+                label="Password"
+                component={TextField}
+                className={classes.textField}
+                margin="normal"
+              />
+              <ErrorMessage name="password" component="div" className={classes.error} />
+
+              <br />
+              {error && (
+                <Typography variant="body2" color="error">
+                  <Icon color="error" className={classes.error}>
+                    error
+                  </Icon>
+                  {error}
+                </Typography>
+              )}
+
+              <CardActions>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  type="submit"
+                  className={classes.submit}
+                >
+                  Submit
+                </Button>
+              </CardActions>
+            </Form>
+          </Formik>
+        </CardContent>
       </Card>
-      {/*  //On successfully sign-in, the user is given a confirmation */}
+      {/* On successfully sign-up, show a confirmation dialog */}
       <Dialog
-        open={values.open}
-        onClose={() => setValues({ ...values, open: false })}
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
       >
         <DialogTitle>New Account</DialogTitle>
         <DialogContentText>
